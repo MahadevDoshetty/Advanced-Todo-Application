@@ -1,0 +1,10 @@
+import express from "express";
+const router = express.Router();
+import { getTodoRoute, postTodoRoute, signInRoute, signUpRoute, changePasswordRoute, profileRoute } from "../Controllers/user.controllers";
+router.get("/getTodos", getTodoRoute);
+router.post("/postTodos", postTodoRoute);
+router.post("/signIn", signInRoute);
+router.post("/signUp", signUpRoute);
+router.post("/me", profileRoute);
+router.patch("/changePassword", changePasswordRoute);
+export default router;
