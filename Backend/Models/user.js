@@ -14,7 +14,7 @@ const schema = new mongoose.Schema({
         required: true
     },
 });
-const userInfo = new mongoose.Model("userInfo", schema);
+const userInfo = new mongoose.model("userInfo", schema);
 const todos = new mongoose.Schema({
     id: {
         type: String,
@@ -22,8 +22,8 @@ const todos = new mongoose.Schema({
         unique: true
     },
     todoLists: {
-        type: Array
+        type: [Object]
     }
 });
-const userTodos = new mongoose.Model("userTodos", todos);
+const userTodos = new mongoose.model("userTodos", todos);
 export { userInfo, userTodos };
