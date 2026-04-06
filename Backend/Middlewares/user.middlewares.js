@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
-import express from "express";
-import { rateLimit } from "express-rate-limit"
+import { rateLimit } from "express-rate-limit";
 /**
  * @param {import("express").Request} req
  * @param {import("express").Response} res
@@ -12,9 +11,7 @@ export function authMiddleware(req, res, next) {
             message: "Invalid token"
         });
     }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET, {
-        ignoreExpiration: false
-    });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (decoded) {
         // res.req.body.token = token;
         next();

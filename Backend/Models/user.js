@@ -13,17 +13,10 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
-});
-const userInfo = new mongoose.model("userInfo", schema);
-const todos = new mongoose.Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true
-    },
     todoLists: {
-        type: [Object]
+        type: Array
     }
 });
-const userTodos = new mongoose.model("userTodos", todos);
-export { userInfo, userTodos };
+const userInfo = new mongoose.model("userInfo", schema);
+
+export { userInfo };

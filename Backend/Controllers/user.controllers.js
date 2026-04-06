@@ -24,11 +24,17 @@ export async function getTodoRoute(req, res) {
 export async function postTodoRoute(req, res) {
     const token = req.cookies.token;
     const obj = req.body;
-    obj.token = token;
+    // const keys = Object.keys(obj);
+    // if (keys.length != 3 || keys == undefined || keys == null || obj == null || obj == undefined) {
+    //     return res.status(400).json({
+    //         message: "Invalid Input",
+    //         status: false
+    //     })
+    // };
     try {
-        const response = await postTodoService(obj);
+        const response = await postTodoService(token, obj);
         return res.status(200).json({
-            message: response.status.message,
+            message: response.message,
             status: response.status
         })
     } catch (error) {
@@ -44,18 +50,17 @@ export async function postTodoRoute(req, res) {
  */
 
 export async function profileRoute(req, res) {
-    const {token} = req.cookies.token;
-    console.log(token);
+    const token = req.cookies.token;
     try {
         const response = await profileService(token);
         if (!response.status) {
             return res.status(400).json({
-                message: response.status.message,
+                message: response.message,
                 status: false
             })
         };
         return res.status(200).json({
-            message: response.status.message,
+            message: response.message,
             user: response
         })
     } catch (error) {
@@ -74,13 +79,13 @@ export async function changePasswordRoute(req, res) {
         const response = await changePasswordService(obj);
         if (!response.status) {
             return res.status(400).json({
-                message: response.status.message,
+                message: response.message,
                 status: response.status
             })
         };
         return res.status(200).json({
 
-            message: response.status.message,
+            message: response.message,
             status: response.status
         });
     } catch (error) {
@@ -97,7 +102,7 @@ export async function signUpRoute(req, res) {
         const response = await signUpService(payload);
         if (response) {
             return res.status(200).json({
-                message: "User registered statusfully !",
+                message: "User registered successfully! !",
                 status: true
             })
         } else {
@@ -122,7 +127,7 @@ export async function signInRoute(req, res) {
         const response = await signInService(userDetails);
         if (!response.status) {
             return res.status(401).json({
-                message: response.status.message,
+                message: response.message,
                 status: response.status
             });
         };
@@ -130,7 +135,7 @@ export async function signInRoute(req, res) {
         return res.status(200).cookie("token", response.token, {
             expires: new Date(Date.now() + 500000)
         }).json({
-            message: response.status.message,
+            message: response.message,
             status: true,
             user: response.user
         });
