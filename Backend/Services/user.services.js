@@ -116,8 +116,6 @@ export async function getTodoService(token) {
     response.message = "Todos fetched!";
     return response;
 };
-
-
 /**
  * @param {import("express").Request} req
  * @param {import("express").Response} res

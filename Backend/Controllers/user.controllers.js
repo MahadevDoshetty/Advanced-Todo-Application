@@ -1,6 +1,7 @@
 import { userInfo } from "../Models/user.js"
 import mongoose from "mongoose";
 import { changePasswordService, getTodoService, postTodoService, profileService, signInService, signUpService } from "../Services/user.services.js";
+import jwt from "jsonwebtoken"
 export async function getTodoRoute(req, res) {
     const token = req.cookies.token;
     try {
@@ -121,6 +122,36 @@ export async function signUpRoute(req, res) {
  * @param {import("express").Request} req
  * @param {import("express").Response} res
  */
+
+
+export async function doneRoute(req, res) {
+    const todo = req.body;
+    const token = req.cookies.token;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await userInfo.findOne({ email: decoded.email });
+    const existingTodos =  user.todoLists;
+    const newTodos = existingTodos.filter((obj) => {
+        if (obj.id != todo.id) {
+            return obj;
+        }
+    });
+    try {
+        const anotherTodosArr = await userInfo.findOne({ email: decoded.email }).updateOne({ email: decoded.email }, { todoLists: newTodos });
+        return res.status(200).json({
+            message: "Todo Deleted",
+            status: true,
+            newTodos
+        });
+    } catch (error) {
+        return res.status(400).json({
+            message: "Something went wrong!",
+            error: error.message,
+            status: false
+        })
+    }
+}
+
+
 export async function signInRoute(req, res) {
     const userDetails = req.body;
     try {
@@ -146,4 +177,4 @@ export async function signInRoute(req, res) {
             status: false
         })
     }
-};
+};  
