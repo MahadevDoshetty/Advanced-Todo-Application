@@ -137,11 +137,10 @@ export async function postTodoService(token, obj) {
         response.message = "User does not exist!"
         return response;
     };
-    const todoLists = user.todoLists
+    const todoLists = user.todoLists;
     todoLists.push(obj);
     const updating = await userInfo.updateOne({ email: decoded.email }, { todoLists: todoLists });
     response.status = true;
     response.message = "Todo pushed!";
     return response;
-    // [{title:"Something", done:"t/f", id:"Num"}]
 };

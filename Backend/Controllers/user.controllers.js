@@ -85,7 +85,6 @@ export async function changePasswordRoute(req, res) {
             })
         };
         return res.status(200).json({
-
             message: response.message,
             status: response.status
         });
